@@ -19,16 +19,16 @@
     },
     "autoload": {
         "files": [
-            "src/helper.php"
+            "src/helpers.php"
         ],
         "psr-4": {
-            "HnhDigital\\LaravelResoureInclude\\": "src/"
+            "HnhDigital\\LaravelResourceInclude\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "HnhDigital\\LaravelResoureInclude\\ServiceProvider"
+                "HnhDigital\\LaravelResourceInclude\\ServiceProvider"
             ]
         }
     }

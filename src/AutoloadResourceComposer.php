@@ -1,10 +1,10 @@
 <?php
 
-namespace HnhDigital\LaravelResoureInclude;
+namespace HnhDigital\LaravelResourceInclude;
 
 use Illuminate\Contracts\View\View;
 
-class AutoloadAssetComposer
+class AutoloadResourceComposer
 {
     /**
      * Bind data to the view.

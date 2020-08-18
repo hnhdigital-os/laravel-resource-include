@@ -1,6 +1,6 @@
 <?php
 
-namespace HnhDigital\LaravelResoureInclude;
+namespace HnhDigital\LaravelResourceInclude;
 
 use Blade;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
@@ -23,8 +23,8 @@ class ServiceProvider extends BaseServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/config.default.php', 'hnhdigital.resources');
 
-        $this->app->singleton('ResoureInclude', function () {
-            return new ResoureInclude();
+        $this->app->singleton('ResourceInclude', function () {
+            return new ResourceInclude();
         });
     }
 
@@ -42,27 +42,27 @@ class ServiceProvider extends BaseServiceProvider
         blade::directive('captureScript', function ($name) {
             $name = empty($name) ? 'inline' : substr(str_replace('$', '', $name), 1, -1);
 
-            return "<?php app('ResoureInclude')->add('js', ob_get_clean(), '".$name."', 'footer-inline'); ?>";
+            return "<?php app('ResourceInclude')->add('js', ob_get_clean(), '".$name."', 'footer-inline'); ?>";
         });
 
         blade::directive('captureStyle', function ($name) {
             $name = empty($name) ? 'header' : substr(str_replace('$', '', $name), 1, -1);
 
-            return "<?php app('ResoureInclude')->add('css', ob_get_clean(), '".$name."', 'footer-inline'); ?>";
+            return "<?php app('ResourceInclude')->add('css', ob_get_clean(), '".$name."', 'footer-inline'); ?>";
         });
 
         blade::directive('resources', function ($name) {
             $name = trim($name, "'\"");
             $name = "'$name'";
 
-            return "<?php app('ResoureInclude')->autoloadAssets(['js', 'css'], $name); ?>";
+            return "<?php app('ResourceInclude')->autoInclude(['js', 'css'], $name); ?>";
         });
 
-        blade::directive('frontendAsset', function ($name) {
+        blade::directive('resoureInclude', function ($name) {
             $name = trim($name, "'\"");
             $name = "$name";
 
-            return "<?= app('ResoureInclude')->$name(); ?>";
+            return "<?= app('ResourceInclude')->$name(); ?>";
         });
 
         blade::directive('asset', function ($name) {
@@ -70,7 +70,7 @@ class ServiceProvider extends BaseServiceProvider
                 $name = "'$name'";
             }
 
-            return "<?php app('ResoureInclude')->package($name); ?>";
+            return "<?php app('ResourceInclude')->package($name); ?>";
         });
 
         blade::directive('package', function ($name) {
@@ -78,7 +78,7 @@ class ServiceProvider extends BaseServiceProvider
                 $name = "'$name'";
             }
 
-            return "<?php app('ResoureInclude')->package($name); ?>";
+            return "<?php app('ResourceInclude')->package($name); ?>";
         });
     }
 
@@ -89,6 +89,6 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function provides()
     {
-        return ['ResoureInclude'];
+        return ['ResourceInclude'];
     }
 }

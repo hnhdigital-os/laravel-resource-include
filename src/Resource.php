@@ -1,6 +1,6 @@
 <?php
 
-namespace HnhDigital\LaravelResoureInclude;
+namespace HnhDigital\LaravelResourceInclude;
 
 use Illuminate\Support\Arr;
 
@@ -28,7 +28,7 @@ class Resource
         $resource = (new self())
             ->setPath($path);
 
-        list($type, $location) = app('ResoureInclude')->parseExtension($resource->getPath(), $location);
+        list($type, $location) = app('ResourceInclude')->parseExtension($resource->getPath(), $location);
 
         $resource->setType($type)
             ->setLocation($location)
@@ -58,7 +58,7 @@ class Resource
     public function setPath(string $path) : Resource
     {
         if (stripos($path, base_path()) === false) {
-            $path = app('ResoureInclude')->url($path);
+            $path = app('ResourceInclude')->url($path);
         }
 
         $this->path = $path;
@@ -84,7 +84,7 @@ class Resource
         $this->type = $type;
 
         if (is_null($this->location)) {
-            $this->setLocation(Arr::get(app('ResoureInclude')->extension_default_locations, $this->type, 'footer'));
+            $this->setLocation(Arr::get(app('ResourceInclude')->extension_default_locations, $this->type, 'footer'));
         }
 
         return $this;
@@ -165,11 +165,11 @@ class Resource
             return $this->path;
         }
 
-        if (app('ResoureInclude')->getDomain() === '/' && app()->environment() !== 'local') {
-            return resource($this->path, app('ResoureInclude')->isSecure());
+        if (app('ResourceInclude')->getDomain() === '/' && app()->environment() !== 'local') {
+            return resource($this->path, app('ResourceInclude')->isSecure());
         }
 
-        return rtrim(app('ResoureInclude')->getDomain(), '/').'/'.ltrim($this->path, '/');
+        return rtrim(app('ResourceInclude')->getDomain(), '/').'/'.ltrim($this->path, '/');
     }
 
     /**
@@ -187,7 +187,7 @@ class Resource
      */
     public function store() : Resource
     {
-        app('ResoureInclude')->storeAsset($this);
+        app('ResourceInclude')->storeAsset($this);
 
         return $this;
     }

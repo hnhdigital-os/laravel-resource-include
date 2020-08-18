@@ -1,6 +1,6 @@
 <?php
 
-namespace HnhDigital\LaravelResoureInclude;
+namespace HnhDigital\LaravelResourceInclude;
 
 use Illuminate\Support\Arr;
 
@@ -52,7 +52,7 @@ abstract class PackageAbstract
      */
     public function isCdn()
     {
-        return app('ResoureInclude')->cdn();
+        return app('ResourceInclude')->cdn();
     }
 
     /**
@@ -99,7 +99,7 @@ abstract class PackageAbstract
      */
     public function lookupVersion($version)
     {
-        return app('ResoureInclude')->packageVersion($this->name(), $version);
+        return app('ResourceInclude')->packageVersion($this->name(), $version);
     }
 
     /**
@@ -129,7 +129,7 @@ abstract class PackageAbstract
      */
     public function info(...$args)
     {
-        return Arr::get(app('ResoureInclude')->packageInfo($this->name()), ...$args);
+        return Arr::get(app('ResourceInclude')->packageInfo($this->name()), ...$args);
     }
 
     /**
@@ -137,7 +137,7 @@ abstract class PackageAbstract
      */
     public function integrity() : string
     {
-        return app('ResoureInclude')->packageIntegrity($this->name());
+        return app('ResourceInclude')->packageIntegrity($this->name());
     }
 
     /**
@@ -145,7 +145,7 @@ abstract class PackageAbstract
      */
     public function package($package) : void
     {
-        app('ResoureInclude')->package($package);
+        app('ResourceInclude')->package($package);
     }
 
     /**
@@ -153,7 +153,7 @@ abstract class PackageAbstract
      */
     public function add(...$args) : void
     {
-        app('ResoureInclude')->add(...$args);
+        app('ResourceInclude')->add(...$args);
     }
 
     /**
@@ -161,7 +161,7 @@ abstract class PackageAbstract
      */
     public function content(...$args) : void
     {
-        app('ResoureInclude')->content(...$args);
+        app('ResourceInclude')->content(...$args);
     }
 
     /**
@@ -169,7 +169,7 @@ abstract class PackageAbstract
      */
     public function addFirst(...$args) : void
     {
-        app('ResoureInclude')->addFirst(...$args);
+        app('ResourceInclude')->addFirst(...$args);
     }
 
     /**

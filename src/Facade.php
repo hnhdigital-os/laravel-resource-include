@@ -1,6 +1,6 @@
 <?php
 
-namespace HnhDigital\LaravelResoureInclude;
+namespace HnhDigital\LaravelResourceInclude;
 
 use Illuminate\Support\Facades\Facade as BaseFacade;
 
@@ -13,6 +13,6 @@ class Facade extends BaseFacade
      */
     protected static function getFacadeAccessor()
     {
-        return 'ResoureInclude';
+        return 'ResourceInclude';
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace HnhDigital\LaravelResoureInclude;
+namespace HnhDigital\LaravelResourceInclude;
 
 /*
  * Resource Include.
@@ -68,7 +68,7 @@ class ResourceInclude
         'js'   => 'footer',
     ];
 
-    public function __construct() : void
+    public function __construct()
     {
         $this->resources = collect();
     }
@@ -235,7 +235,7 @@ class ResourceInclude
     /**
      * Get the package integrity.
      */
-    public function packageVersion(string $name, bool $version = false) : stirng|bool
+    public function packageVersion(string $name, bool $version = false) : mixed
     {
         if (!empty($version)) {
             return $version;
@@ -328,7 +328,7 @@ class ResourceInclude
     /**
      * Add a package.
      */
-    public function package(string|array $settings, $config = []) : void
+    public function package(mixed $settings, $config = []) : void
     {
         if (is_array($settings)) {
             $resource_name = array_shift($settings);
@@ -352,14 +352,14 @@ class ResourceInclude
     /**
      * Call package method.
      */
-    public function callPackage(string $class_name, string $method, ...$args) : mixed
+    public function callPackage(string $class_name, string $method, ...$args) : ?mixed
     {
-        if (!isset($this->packages[$class_name])) {
-            return;
+        if (! isset($this->packages[$class_name])) {
+            return null;
         }
 
-        if (!is_callable([$this->packages[$class_name], $method])) {
-            return;
+        if (! is_callable([$this->packages[$class_name], $method])) {
+            return null;
         }
 
         return $this->packages[$class_name]->$method(...$args);
@@ -377,7 +377,9 @@ class ResourceInclude
         $path = str_replace('.', '/', $path);
 
         if (substr($path, -1) === '*') {
-            return $this->autoIncludeByWildcard($extensions, substr($path, 0, -1));
+            $this->autoIncludeByWildcard($extensions, substr($path, 0, -1));
+
+            return;
         }
 
         // Go through each file extension folder.
@@ -405,7 +407,7 @@ class ResourceInclude
     /**
      * Autoload resources using a wildcard search of their path.
      */
-    public function autoIncludeByWildcard(string|array $extensions, string $path) : void
+    public function autoIncludeByWildcard(mixed $extensions, string $path) : void
     {
         // Force array.
         $extensions = Arr::wrap($extensions);
