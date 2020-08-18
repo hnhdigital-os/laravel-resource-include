@@ -1,0 +1,11 @@
+{
+  "providers": [
+    "HnhDigital\\LaravelResoureInclude\\ServiceProvider"
+  ],
+  "aliases": [
+    {
+      "alias": "ResoureInclude",
+      "facade": "HnhDigital\\LaravelResoureInclude\\Facade"
+    }
+  ]
+}
