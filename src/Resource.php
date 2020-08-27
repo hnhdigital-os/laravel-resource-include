@@ -166,7 +166,7 @@ class Resource
         }
 
         if (app('ResourceInclude')->getDomain() === '/' && app()->environment() !== 'local') {
-            return resource($this->path, app('ResourceInclude')->isSecure());
+            return asset($this->path, app('ResourceInclude')->isSecure());
         }
 
         return rtrim(app('ResourceInclude')->getDomain(), '/').'/'.ltrim($this->path, '/');
