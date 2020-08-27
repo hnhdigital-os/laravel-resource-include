@@ -39,33 +39,33 @@ class ServiceProvider extends BaseServiceProvider
             __DIR__.'/../config/config.php' => config_path('hnhdigital/resources.php'),
         ]);
 
-        blade::directive('captureScript', function ($name) {
+        Blade::directive('captureScript', function ($name) {
             $name = empty($name) ? 'inline' : substr(str_replace('$', '', $name), 1, -1);
 
             return "<?php app('ResourceInclude')->add('js', ob_get_clean(), '".$name."', 'footer-inline'); ?>";
         });
 
-        blade::directive('captureStyle', function ($name) {
+        Blade::directive('captureStyle', function ($name) {
             $name = empty($name) ? 'header' : substr(str_replace('$', '', $name), 1, -1);
 
             return "<?php app('ResourceInclude')->add('css', ob_get_clean(), '".$name."', 'footer-inline'); ?>";
         });
 
-        blade::directive('resources', function ($name) {
+        Blade::directive('resources', function ($name) {
             $name = trim($name, "'\"");
             $name = "'$name'";
 
             return "<?php app('ResourceInclude')->autoInclude(['js', 'css'], $name); ?>";
         });
 
-        blade::directive('resoureInclude', function ($name) {
+        Blade::directive('resoureInclude', function ($name) {
             $name = trim($name, "'\"");
             $name = "$name";
 
             return "<?= app('ResourceInclude')->$name(); ?>";
         });
 
-        blade::directive('asset', function ($name) {
+        Blade::directive('asset', function ($name) {
             if (strlen(trim($name, "'\"[]")) == strlen($name)) {
                 $name = "'$name'";
             }
@@ -73,12 +73,19 @@ class ServiceProvider extends BaseServiceProvider
             return "<?php app('ResourceInclude')->package($name); ?>";
         });
 
-        blade::directive('package', function ($name) {
+        Blade::directive('package', function ($name) {
             if (strlen(trim($name, "'\"[]")) == strlen($name)) {
                 $name = "'$name'";
             }
 
             return "<?php app('ResourceInclude')->package($name); ?>";
+        });
+
+        Blade::directive('resourcesFor', function ($name) {
+            $name = trim($name, "'\"");
+            $name = "$name";
+
+            return "<?php app('ResourceInclude')->{$name}(); ?>";
         });
     }
 

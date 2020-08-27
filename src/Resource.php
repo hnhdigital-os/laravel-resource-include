@@ -23,7 +23,7 @@ class Resource
     /**
      * Create resource by path.
      */
-    public static function createByPath(string $path, string $location, array $attributes = []) : Resource
+    public static function createByPath(string $path, ?string $location, array $attributes = []) : Resource
     {
         $resource = (new self())
             ->setPath($path);
@@ -79,11 +79,11 @@ class Resource
     /**
      * Set the type.
      */
-    public function setType(string $type) : Resource
+    public function setType(?string $type) : Resource
     {
         $this->type = $type;
 
-        if (is_null($this->location)) {
+        if (! is_null($this->type) && is_null($this->location)) {
             $this->setLocation(Arr::get(app('ResourceInclude')->extension_default_locations, $this->type, 'footer'));
         }
 
@@ -109,7 +109,7 @@ class Resource
     /**
      * Set the location.
      */
-    public function setLocation(string $location) : Resource
+    public function setLocation(?string $location) : Resource
     {
         $this->location = $location;
 
@@ -317,12 +317,8 @@ class Resource
 
     /**
      * Magic get.
-     *
-     * @param string $name
-     *
-     * @return string
      */
-    public function __get($name) : string
+    public function __get($name)
     {
         if (!isset($this->$name)) {
             return;

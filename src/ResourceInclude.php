@@ -147,7 +147,7 @@ class ResourceInclude
     /**
      * Add a resource.
      */
-    public function add(string $path, ?string $location = null, array $attributes = [], ?integer $priority = null) : ResourceIncludeL
+    public function add(string $path, ?string $location = null, array $attributes = [], ?integer $priority = null) : Resource
     {
         $resource = Resource::createByPath($path, $location, $attributes);
 
@@ -235,7 +235,7 @@ class ResourceInclude
     /**
      * Get the package integrity.
      */
-    public function packageVersion(string $name, bool $version = false) : mixed
+    public function packageVersion(string $name, bool $version = false)
     {
         if (!empty($version)) {
             return $version;
@@ -296,9 +296,9 @@ class ResourceInclude
         $output = '';
 
         foreach ($this->meta as $name => $attributes) {
-            $output = Html::meta()
-                ->name(Arr::has($attributes, 'config.noname') ? false : $name)
-                ->addAttributes(Arr::except($attributes, ['config']));
+            $output = Html::element('meta')
+                ->attribute('name', Arr::has($attributes, 'config.noname') ? false : $name)
+                ->attributes(Arr::except($attributes, ['config']));
             $output = "\n";
         }
 
@@ -328,7 +328,7 @@ class ResourceInclude
     /**
      * Add a package.
      */
-    public function package(mixed $settings, $config = []) : void
+    public function package($settings, $config = []) : void
     {
         if (is_array($settings)) {
             $resource_name = array_shift($settings);
@@ -352,7 +352,7 @@ class ResourceInclude
     /**
      * Call package method.
      */
-    public function callPackage(string $class_name, string $method, ...$args) : ?mixed
+    public function callPackage(string $class_name, string $method, ...$args)
     {
         if (! isset($this->packages[$class_name])) {
             return null;
@@ -494,8 +494,6 @@ class ResourceInclude
 
     /**
      * Enforce HTTP2.
-     *
-     * @return void
      */
     public function http2() : void
     {
@@ -510,10 +508,8 @@ class ResourceInclude
 
     /**
      * Output header html.
-     *
-     * @return string
      */
-    public function header() : string
+    public function header(bool $echo = true) : string
     {
         $output = '';
         $output .= $this->meta(false);
@@ -522,15 +518,16 @@ class ResourceInclude
         $output .= $this->render('js', 'header');
         $output .= $this->render('js', 'header-inline');
 
+        if ($echo) {
+            echo $output;
+        }
+
         return $output;
     }
 
     /**
-     * Output footer html.
-     *
-     * @return string
      */
-    public function footer() : string
+    public function footer(bool $echo = true) : string
     {
         $output = '';
         $output .= $this->render('css', 'footer');
@@ -538,6 +535,10 @@ class ResourceInclude
         $output .= $this->render('js', 'footer');
         $output .= $this->render('js', 'footer-inline');
         $output .= $this->render('js', 'ready');
+
+        if ($echo) {
+            echo $output;
+        }
 
         return $output;
     }
