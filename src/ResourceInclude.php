@@ -296,10 +296,10 @@ class ResourceInclude
         $output = '';
 
         foreach ($this->meta as $name => $attributes) {
-            $output = Html::element('meta')
+            $output .= Html::element('meta')
                 ->attribute('name', Arr::has($attributes, 'config.noname') ? false : $name)
                 ->attributes(Arr::except($attributes, ['config']));
-            $output = "\n";
+            $output .= "\n";
         }
 
         if ($echo) {
