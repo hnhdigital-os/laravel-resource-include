@@ -28,7 +28,7 @@ class ResourceInclude
     private $secure = false;
 
     /**
-     * Assets.
+     * Resources.
      *
      * @var array
      */
@@ -181,7 +181,7 @@ class ResourceInclude
     /**
      * Get resources by type.
      */
-    private function getAssetByType(string $type, string $location)
+    private function getResourceByType(string $type, string $location)
     {
         return $this->resources->filter(function ($resource, $hash) use ($type, $location) {
             return $resource->location === $location && $resource->type === $type;
@@ -195,7 +195,7 @@ class ResourceInclude
      */
     public function content(string $type, string $content, string $location) : void
     {
-        $resource = Asset::createByContent($path, $content, $location);
+        $resource = Resource::createByContent($path, $content, $location);
 
         $this->resources[$resource->getHash()] = $resource;
     }
@@ -207,7 +207,11 @@ class ResourceInclude
     {
         $result = '';
 
-        $resources = $this->getAssetByType($type, $location);
+        if (config('app.env') === 'local') {
+            $result = "<!-- {$type}/{$location} -->\n";
+        }
+
+        $resources = $this->getResourceByType($type, $location);
 
         foreach ($resources as $resource) {
             $render = $resource->render();
