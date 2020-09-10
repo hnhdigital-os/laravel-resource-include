@@ -31,6 +31,13 @@ abstract class PackageAbstract
     protected $disable_method = [];
 
     /**
+     * Package config.
+     *
+     * @var string
+     */
+    protected $config = [];
+
+    /**
      * Default constructor.
      *
      * @param bool $version
@@ -62,6 +69,10 @@ abstract class PackageAbstract
      */
     public function load($config)
     {
+        if (! empty($config)) {
+            $this->config = Arr::wrap($config);
+        }
+
         $this->callMethod('before');
 
         // If the package provides cdn/local methods.
@@ -72,10 +83,6 @@ abstract class PackageAbstract
         }
 
         $this->callMethod('after');
-
-        if (!empty($config)) {
-            $this->callMethod('local', Arr::wrap($config));
-        }
     }
 
     /**
