@@ -211,7 +211,7 @@ class Resource
                 $result = '<script src="'.$this->getUrl().'"'.$this->renderAttributes().'></script>';
                 break;
             case 'css':
-                $result = '<link rel="stylesheet" type="text/css" href="'.$this->getUrl().'"'.$this->renderAttributes().'></script>';
+                $result = '<link rel="stylesheet" type="text/css" href="'.$this->getUrl().'"'.$this->renderAttributes().'>';
                 break;
         }
 
