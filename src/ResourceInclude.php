@@ -195,7 +195,7 @@ class ResourceInclude
      */
     public function content(string $type, string $content, string $location) : void
     {
-        $resource = Resource::createByContent($path, $content, $location);
+        $resource = Resource::createByContent($type, $content, $location);
 
         $this->resources[$resource->getHash()] = $resource;
     }

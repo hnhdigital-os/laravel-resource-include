@@ -248,14 +248,18 @@ class Resource
     {
         $result = '';
 
-        if (!file_exists($this->path)) {
+        if (empty($this->content) && ! file_exists($this->path)) {
             return '';
         }
 
-        $content = file_get_contents($this->path);
+        if (! empty($this->content)) {
+            $content = $this->content;
+        } else {
+            $content = file_get_contents($this->path);
+        }
 
         if ($this->type === 'js' && $location === 'ready') {
-            $content = sprintf('$(function(){ %s });', $content);
+            $content = sprintf("document.addEventListener('DOMContentLoaded', () => {\n%s\n});", $content);
         }
 
         switch ($this->type) {
@@ -265,7 +269,6 @@ class Resource
             case 'js':
                 $result = sprintf('<script type="text/javascript">%s</script>', $content);
                 break;
-
         }
 
         return $result;
@@ -284,7 +287,7 @@ class Resource
      */
     private function isInline() : bool
     {
-        return stripos($this->location, 'inline') !== false || $this->location === 'ready';
+        return ! empty($this->content) || stripos($this->location, 'inline') !== false || $this->location === 'ready';
     }
 
     /**
