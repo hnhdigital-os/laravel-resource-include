@@ -46,6 +46,13 @@ class ResourceInclude
      *
      * @var array
      */
+    private $head_tags = [];
+
+    /**
+     * Meta entries.
+     *
+     * @var array
+     */
     private $meta = [];
 
     /**
@@ -272,6 +279,50 @@ class ResourceInclude
         }
 
         return $integrity;
+    }
+
+    /**
+     * Add a head tag.
+     */
+    public function addHeadTag(array $tag) : ResourceInclude
+    {
+        $this->head_tags[] = $tag;
+
+        return $this;
+    }
+
+    /**
+     * Add a head tags.
+     */
+    public function addHeadTags(array $tags) : ResourceInclude
+    {
+        foreach ($tags as $tag) {
+            $this->head_tags[] = $tag;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Output meta.
+     *
+     * @return array
+     */
+    public function headTags($echo = true) : string
+    {
+        $output = '';
+
+        foreach ($this->head_tags as $attributes) {
+            $output .= Html::element($attributes['tag'])
+                ->attributes(Arr::except($attributes, ['tag', 'config']));
+            $output .= "\n";
+        }
+
+        if ($echo) {
+            echo $output;
+        }
+
+        return $output;
     }
 
     /**
@@ -516,6 +567,7 @@ class ResourceInclude
     public function header(bool $echo = true) : string
     {
         $output = '';
+        $output .= $this->headTags(false);
         $output .= $this->meta(false);
         $output .= $this->render('css', 'header');
         $output .= $this->render('css', 'inline');
