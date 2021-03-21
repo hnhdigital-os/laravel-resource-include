@@ -567,8 +567,8 @@ class ResourceInclude
     public function header(bool $echo = true) : string
     {
         $output = '';
-        $output .= $this->headTags(false);
         $output .= $this->meta(false);
+        $output .= $this->headTags(false);
         $output .= $this->render('css', 'header');
         $output .= $this->render('css', 'inline');
         $output .= $this->render('js', 'header');
