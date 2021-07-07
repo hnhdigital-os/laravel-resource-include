@@ -154,7 +154,7 @@ class ResourceInclude
     /**
      * Add a resource.
      */
-    public function add(string $path, ?string $location = null, array $attributes = [], ?integer $priority = null) : Resource
+    public function add(string $path, ?string $location = null, array $attributes = [], ?int $priority = null) : Resource
     {
         $resource = Resource::createByPath($path, $location, $attributes);
 
@@ -313,9 +313,28 @@ class ResourceInclude
         $output = '';
 
         foreach ($this->head_tags as $attributes) {
-            $output .= Html::element($attributes['tag'])
-                ->attributes(Arr::except($attributes, ['tag', 'config']));
-            $output .= "\n";
+            $tag_element = Html::element($attributes['tag'])
+                ->attributes(Arr::except($attributes, ['tag', 'config', 'text', 'json']));
+
+            try {
+                if (Arr::has($attributes, 'text')) {
+                    $tag_element = $tag_element->setChildren(Arr::get($attributes, 'text', ''));
+                }
+            } catch (\Exception $exception) {
+
+            }
+
+            try {
+                if (Arr::has($attributes, 'json')) {
+                    $tag_element = $tag_element->setChildren(
+                        json_encode(Arr::get($attributes, 'json', ''), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
+                    );
+                }
+            } catch (\Exception $exception) {
+
+            }
+
+            $output .= (string) $tag_element."\n";
         }
 
         if ($echo) {
