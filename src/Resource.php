@@ -139,7 +139,7 @@ class Resource
     /**
      * Set the priority.
      */
-    public function setPriority(integer $priority) : Resource
+    public function setPriority(int $priority) : Resource
     {
         $this->priority = $priority;
 
